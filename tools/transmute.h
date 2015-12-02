@@ -10,13 +10,16 @@ public:
 	Transmute(std::string input);
 	// Destructor
 	~Transmute();
+	// Checker
+	bool validSize();
 
 	// Transmutation types
-	void rightAngle(); // Needs a new name
-	void wrapBox();
-	void upperGradient();
-	void lowerGradient();
-	void asciiMagnify(int lineHeight);
+	void RightAngle(); // "r"
+	void WrapBox(); // "w"
+	void UpperGradient(); // "g"
+	
+	// Getters
+	void printOut() const { std::cout << heldText << '\n'; }
 
 private:
 	std::string heldText;
@@ -28,7 +31,7 @@ private:
 
 #endif //_TRANSMUTE_H_
 
-/*
+/* An example of uppergradient
 
 A E S T H E T I C
 E S T H E T I C

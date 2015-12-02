@@ -1,8 +1,7 @@
 #ifndef _CIPHERS_H_
 #define _CIPHERS_H_
 #include <string>
-
-enum opType { encode, decode };
+#include <iostream>
 
 class Cipher {
 public:
@@ -15,11 +14,11 @@ public:
 
 	// Cipher types
 	void ROT13();
-	void Caeser(opType choiceCode);
-	void Unique(opType choiceCode, int origCharShift);
-	
-	// Receive modified string
-	std::string getOutput();
+	void EncodeCaeser(int charShift);
+	void DecodeCaeser(int charShift);
+
+	// Getters
+	void printOut() const { std::cout << heldText << '\n'; }
 
 private:
 	std::string heldText;

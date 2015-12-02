@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
+#include <cctype>
 #include "ciphers.h"
 
-int upperMin = 65;
-int upperMax = 90;
-int lowerMin = 97;
-int lowerMax = 122;
+char upperMin = 'A';
+char upperMax = 'Z';
+char lowerMin = 'a';
+char lowerMax = 'z';
 
 Cipher::Cipher(){
 	// hello
@@ -31,27 +32,29 @@ void Cipher::ROT13(){
 			heldText[i] = (heldText[i] + 13) % lowerMax;
 		}
 	}
+	std::cout << heldText << '\n';
 }
 
-void Cipher::Caeser(opType choiceCode){
-	// Encoding
-	switch (choiceCode) {
-		case encode:
-		break;
-
-
-		case decode:
-		break;
-	}
+void Cipher::EncodeCaeser(int charShift){
+	// Prevent overly large
+	int shift = charShift % 26;
+	// Iterate through input
 	for (int i = 0; i < heldText.size(); i++){
-
+		if (charShift == 0);
+		else if (isalpha(heldText[i])){
+			// Check lowercase letters being over 'z'
+			if (heldText[i] >= lowerMin && heldText[i] <= lowerMax){
+				if ((heldText[i] += shift) > lowerMax){
+					heldText[i] -= 26;
+				}
+			} 
+			// Check uppercase letters being over 'Z'
+			else if (heldText[i] >= upperMin && heldText[i] <= upperMax){
+				if ((heldText[i] += shift) > upperMax){
+					heldText[i] -= 26;
+				}
+			}
+		}
 	}
-}
-
-void Cipher::Unique(opType choiceCode, int origCharShift){
-	// does nothing yet
-}
-
-std::string Cipher::getOutput(){
-	return heldText;
+	printOut();
 }
