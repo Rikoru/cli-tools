@@ -12,7 +12,7 @@ Add the slash back to enable the block
 #include "ciphers.h"
 #include "transmute.h"
 
-const std::string verNum = "2015.11.30";
+const std::string verNum = "2015.12.05";
 
 enum TYPE_ENUM {
 	noneTP, cipher, transmute
@@ -63,6 +63,14 @@ int main(int argc, char* argv[]){
 					return 0;
 				}
 
+				// Checks for long-form input
+				if (argv[i][1] == '-'){
+					if (std::string(argv[i]) == "--transmute"){
+						typeChoice = transmute;
+					}
+					continue;
+				}
+
 				//===============================//
 				/* Toggleable block
 
@@ -95,7 +103,7 @@ int main(int argc, char* argv[]){
 				//* Toggleable block
 
 				// Set operation to transmute
-				if (argv[i][1] == 'T' || std::string(argv[i]) == "--transmute"){
+				if (argv[i][1] == 'T'){
 					typeChoice = transmute;
 				}
 
@@ -116,6 +124,8 @@ int main(int argc, char* argv[]){
 							//std::cout << offset << '\n';
 						}
 						//*/
+						
+						//Increment mini count
 						j++;
 					}
 
@@ -123,8 +133,8 @@ int main(int argc, char* argv[]){
 				}
 				//*/
 			}
-			// Check for text input
-			else if (i < argc) held = (argv[i]);
+			// Check for text input in last argument
+			else if (i == argc - 1) held = (argv[i]);
 		}
 
 		/*
