@@ -16,12 +16,12 @@ const std::string verNum = "2015.11.30";
 
 enum TYPE_ENUM {
 	noneTP, cipher, transmute
-};			
+};
 
 enum OPTYPE {
 	/* Default */ noneOP,
 	/* Cipher */ rot13, caeser,
-	/* Transmute */ wrap_box, right_angle, gradient, 
+	/* Transmute */ wrap_box, right_angle, gradient,
 };
 
 int IsInt(char* input, int& holder);
@@ -50,9 +50,9 @@ int main(int argc, char* argv[]){
 		for (int i = 0; i < argc; i++){
 			// Check for flags
 			if (argv[i][0] == '-'){
-				
+
 				// Prints current version of cli-tools
-				if (argv[i][1] == 'V' || (std::string(argv[i]) == "--version")){
+				if (argv[i][1] == 'v' || (std::string(argv[i]) == "--version")){
 					std::cout << "cli-tools version " << verNum << "\n";
 					return 0;
 				}
@@ -75,11 +75,11 @@ int main(int argc, char* argv[]){
 				if (typeChoice == cipher){
 					while (argv[i][j] != '\0'){
 						if (argv[i][j] == 'd' || std::string(argv[i]) == "--decode"){
-							defaultMode = false;	
-						} 
+							defaultMode = false;
+						}
 						if (argv[i][j] == 'r') opChoice = rot13;
 						if (argv[i][j] == 'c') opChoice = caeser;
-						// Check if next argument is an integer 
+						// Check if next argument is an integer
 						if (opChoice != rot13 && offset == 0){
 							IsInt(argv[i+1], offset);
 							//std::cout << offset << '\n';
@@ -102,18 +102,20 @@ int main(int argc, char* argv[]){
 				// Continue checking for transmute-related args
 				if (typeChoice == transmute){
 					while (argv[i][j] != '\0'){
-						if (argv[i][j] == 'l' || std::string(argv[i]) == "--transmute"){ 
+						if (argv[i][j] == 'l' || std::string(argv[i]) == "--transmute"){
 							defaultMode = false;
 						}
 						if (argv[i][j] == 'w') opChoice = wrap_box;
 						if (argv[i][j] == 'r') opChoice = right_angle;
 						if (argv[i][j] == 'g') opChoice = gradient;
-						// Check if next argument is an integer 
-						if (opChoice != rot13 && offset == 0){
+						// Check if next argument is an integer
+						/* Toggleable block, numbers might be useful at some point
+						if (offset == 0){
 							IsInt(argv[i+1], offset);
 							// Debugging related
 							//std::cout << offset << '\n';
 						}
+						//*/
 						j++;
 					}
 
@@ -121,10 +123,11 @@ int main(int argc, char* argv[]){
 				}
 				//*/
 			}
-			// Check for text input	
+			// Check for text input
 			else if (i < argc) held = (argv[i]);
 		}
 
+		/*
 		if (typeChoice == cipher){
 			Cipher cip(held);
 			if (opChoice == rot13){
@@ -136,15 +139,15 @@ int main(int argc, char* argv[]){
 			}
 			//cip.printOut();
 		}
-		else if (typeChoice == transmute){
+		else */ if (typeChoice == transmute){
 			Transmute tip(held);
 			if (opChoice == right_angle) tip.RightAngle();
 			else if (opChoice == wrap_box) tip.WrapBox();
 			if (opChoice == gradient) tip.UpperGradient();
-			
+
 		}
-		
-		/* Debugging helper (toggleable - just add a slash)
+
+		/* Debugging helper (toggleable - just add a slash to the start)
 		std::cout << "You chose: " << typeChoice << " and "
 			<< opChoice << " with " << held << '\n';
 		//*/
@@ -153,8 +156,7 @@ int main(int argc, char* argv[]){
 	return 0;
 }
 
-
-
+// Checks if input is an integer
 int IsInt(char* input, int& holder){
 	int x = 0;
 	std::istringstream testing(input);
@@ -165,40 +167,42 @@ int IsInt(char* input, int& holder){
 
 void PrintHelp(){
 	std::cout << "usage: cli-tools <operation> [...]\n"
-		<< "Operations:\n" 
+		<< "Operations:\n"
 		<< "  " << "cli-tools {-h | --help}\n"
-		<< "  " << "cli-tools {-V | --version}\n"
-		<< "  " << "cli-tools {-C | --cipher} [options] <input>\n"
+		<< "  " << "cli-tools {-v | --version}\n"
+		//<< "  " << "cli-tools {-C | --cipher} [options] <input>\n"
 		<< "  " << "cli-tools {-T | --transmute} [options] <input>\n\n"
-		<< "Use 'cli-tools {-h --help}' with an operation for"
-			<< " available options\n"
-		<< "Operations and subflags can be used together" 
-			<< " (i.e. -Cdr).\n"
+		<< "Operations and subflags can be used together"
+			<< " (i.e. -Tr).\n"
+		<< "Single quotes (ie.  \' ) can be used to surround phrases.\n"
 	/* Toggleable when the features work
-	<< "\nCipher\n"	
+	<< "\nCipher\n"
 	<< "usage: cli-tools {-C | --cipher} [options] <input>\n"
-		<< "options:\n"				
+		<< "options:\n"
 		<< "  " << "-d, --decode" << " = "
 			<< "Sets mode to decode, cannot be combined with encode.\n"
-		
-		<< "  " << "-r" << " = " 
+
+		<< "  " << "-r" << " = "
 			<< "Shifts letters 13 characters through alphabet.\n"
 			<< "    " << "Does not require encode/decode flag.\n"
-		
-		<< "  " << "-c #" << " = " 
+
+		<< "  " << "-c #" << " = "
 			<< "Shifts letters in input over # letters.\n"
 			<< "    " << "Assumes encode if no mode specified.\n"
 	//*/
 	<< "\nTransmute\n"
 	<< "usage: cli-tools {-T | --transmute} [options] <input>\n"
 		<< "options:\n"
-		
+
 		<< "  " << "-l, --lower" << " = "
 			<< "Sets more to lower for applicable transmutations.\n"
-		
-		<< "  " << "-b" << " = "
+
+		<< "  " << "-g" << " = "
+			<< "Creates a gradient of the given input.\n"
+
+		<< "  " << "-w" << " = "
 			<< "Creates a wrapped box of the given input.\n"
-		
+
 		<< "  " << "-r" << " = "
 			<< "Creates a left-ended right-angle of the input.\n";
 
