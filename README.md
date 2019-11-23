@@ -10,7 +10,7 @@ A variety of command-line tools
 
 ### What are some example use-cases?
 #### transmute wrap-box
-An user wants to create a box of text, like so:
+A user wants to create a box of text, like so:
 ```
 T E S T
 E S T T
